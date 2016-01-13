@@ -105,6 +105,20 @@ def convolution_slow(A,B):
   conv = fft_slow(conv,-1.)
   return conv
 
+def correlation(A,B):
+  fft(A,1.)
+  N = len(A) >> 1
+  for i in range(N):
+    A[2*i+1]=-1*A[2*i+1]
+  fft(B,1.)
+  corr = np.zeros(2*N)
+  for i in range(N):
+    corr[2*i] = A[2*i]*B[2*i] - A[2*i+1]*B[2*i+1]
+    corr[2*i+1] = A[2*i+1]*B[2*i] + A[2*i]*B[2*i+1]
+  fft(corr,1.)
+  return corr
+
+
 def pow2(n):
   n = n - 1
   n |= n >> 1
