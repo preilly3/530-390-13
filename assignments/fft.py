@@ -3,6 +3,22 @@ import matplotlib.pyplot as plt
 
 PI = 2*np.arcsin(1)
 
+################################################################################
+#                           Assignment 4 Solution
+
+def correlation(A,B):
+  transform(A,1.)
+  transform(B,1.)
+  N = len(A) >> 1
+  corr = np.zeros(2*N)
+  for i in range(N):
+    corr[2*i] = (A[2*i]*B[2*i]-A[2*i+1]*B[2*i+1])
+    corr[2*i+1] = -(A[2*i+1]*B[2*i]+A[2*i]*B[2*i+1])
+  transform(corr,-1.)
+  return corr
+
+################################################################################
+
 # plot complex number
 def plot_c(x,y):
   N = len(x)
