@@ -33,6 +33,28 @@ def cub(x):
 def quar(x):
   return x*x*x*x
 
+def eleven(x):
+  return x*x*x*x*x*x*x*x*x*x*x
+
+def twelve(x):
+  return x*x*x*x*x*x*x*x*x*x*x*x
+
+def power(x,n):
+  x0=x
+  if n==0:
+    return 1
+  elif n==1:
+    return x
+  else:
+    for i in range(n-1):
+      x=x*x0
+    return x
+
+#if n==0:
+#    return 1
+#  else:
+#    return x*power(x,x-1) 
+
 def legendre(a,b,x,y,n):
   if n == 0:
     return np.ones(len(x))
@@ -80,7 +102,14 @@ def gauss_leg(a, b, N):
     w[N-1-i] = w[i]
   return [x,w]
 
-def gauss_quad(func,x,w):
+def gauss_quad(func,x,w,pw):
+  N = len(x)
+  I = 0
+  for i in range(N):
+    I = I + w[i]*func(x[i],pw)
+  return I
+
+def gauss_quad2(func,x,w):
   N = len(x)
   I = 0
   for i in range(N):
