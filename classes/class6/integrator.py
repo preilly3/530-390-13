@@ -150,4 +150,5 @@ def exponential(beta):
   if tmp == 0:
     tmp = random.random()
   else:
+    #return 1-np.exp(-beta*tmp)
     return -np.log(tmp)/beta
