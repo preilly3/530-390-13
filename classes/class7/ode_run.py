@@ -4,6 +4,49 @@ import matplotlib.pyplot as plt
 import ode
 import pde
 
+#######Assignment 7 Problem 1
+#In steady state, the time dependent derivative is zero.  The second derivative can be integrated twice by separation. two constants are picked up. Using the provided boundary conditions involving the velocity of the fluid at the top and bottom plates (U and -U), the two constants can be found. One is zero and the other is 2U/L. This leads to the steady state solution of u = 2U*y/L.
+#
+#######Assignment 7 Problem 1
+
+mu = 1
+U1 = 1
+L = 1
+UL = U1/L
+T = .1
+Nx = 100
+F = -1
+dx = L/(Nx-1)
+
+dt = 0.90*0.5*dx*dx/mu
+Nt = round(T / dt + 1)
+
+t = np.zeros(Nt)
+x = np.zeros(Nx)
+u = np.zeros([Nt,Nx])
+U = np.zeros(Nx)
+
+for i in range(Nx):
+  x[i] = -L*0.5 + i*dx
+  u[0,i] = 0
+  U[i] = 2*UL*x[i]
+
+i = 1
+while t[i-1]+dt <= T:
+  t[i] = t[i-1] + dt
+  u[i,:] = pde.couette(u[i-1,:],mu,dt,dx)
+  # specify boundary condition
+  u[i,0] = -U1
+  u[i,Nx-1] = U1
+  i = i + 1
+
+#plt.plot(x,u[0,:],x,u[np.floor(Nt/80),:],x,u[np.floor(5*Nt/40),:],x,u[np.floor(Nt-1),:])
+plt.plot(U,x,'o',u[np.floor(Nt/8),:],x,u[np.floor(Nt/4),:],x,u[np.floor(Nt/2),:],x,u[Nt-1,:],x,u[0,:],x)
+plt.show()
+
+# The plot shows the flow starting with no velocity (vertical line) and then shows the fluid near the plates moving first. The outboard shear planes eventually pull the inner shear planes until the steady state linear distribution is met. 
+############################
+
 # ODE
 #T = 1
 #a = 10
@@ -41,37 +84,37 @@ import pde
 #plt.show()
 
 # PDE
-D = 1
-L = 1
-T = 1.00
-Nx = 100
-F = -1
-dx = L/(Nx-1)
-dt = 0.90*0.5*dx*dx/D
-Nt = round(T / dt + 1)
-
-t = np.zeros(Nt)
-x = np.zeros(Nx)
-u = np.zeros([Nt,Nx])
-U = np.zeros(Nx)
-
-for i in range(Nx):
-  x[i] = i*dx
-  u[0,i] = 0
-  U[i] = 0.5*F/D*(x[i]*x[i] - x[i]*L)
-  # temperature diffusion initial condition
-#  if x[i] >= L/3 and x[i] <= 2*L/3:
-#    u[0,i] = 1
-
-i = 1
-while t[i-1]+dt <= T:
-  t[i] = t[i-1] + dt
-  u[i,:] = pde.euler_diffusion(u[i-1,:],D,dt,dx,F)
-  # specify boundary condition
-  u[i,0] = 0
-  u[i,Nx-1] = 0
-  i = i + 1
-
-#plt.plot(x,u[0,:],x,u[np.floor(Nt/80),:],x,u[np.floor(5*Nt/40),:],x,u[np.floor(Nt-1),:])
-plt.plot(U,x,'o',u[np.floor(Nt/20),:],x,u[np.floor(Nt/10),:],x,u[np.floor(Nt/5),:],x,u[Nt-2,:],x)
-plt.show()
+#D = 1
+#L = 1
+#T = 1.00
+#Nx = 100
+#F = -1
+#dx = L/(Nx-1)
+#dt = 0.90*0.5*dx*dx/D
+#Nt = round(T / dt + 1)
+#
+#t = np.zeros(Nt)
+#x = np.zeros(Nx)
+#u = np.zeros([Nt,Nx])
+#U = np.zeros(Nx)
+#
+#for i in range(Nx):
+#  x[i] = i*dx
+#  u[0,i] = 0
+#  U[i] = 0.5*F/D*(x[i]*x[i] - x[i]*L)
+#  # temperature diffusion initial condition
+##  if x[i] >= L/3 and x[i] <= 2*L/3:
+##    u[0,i] = 1
+#
+#i = 1
+#while t[i-1]+dt <= T:
+#  t[i] = t[i-1] + dt
+#  u[i,:] = pde.euler_diffusion(u[i-1,:],D,dt,dx,F)
+#  # specify boundary condition
+#  u[i,0] = 0
+#  u[i,Nx-1] = 0
+#  i = i + 1
+#
+##plt.plot(x,u[0,:],x,u[np.floor(Nt/80),:],x,u[np.floor(5*Nt/40),:],x,u[np.floor(Nt-1),:])
+#plt.plot(U,x,'o',u[np.floor(Nt/20),:],x,u[np.floor(Nt/10),:],x,u[np.floor(Nt/5),:],x,u[Nt-2,:],x)
+#plt.show()
