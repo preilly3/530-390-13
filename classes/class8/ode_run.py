@@ -77,11 +77,12 @@ import pde
 #plt.show()
 
 # Poisson problem
-Lx = 1
-Ly = 1
-Nx = 25
-Ny = 25
+Lx = 10
+Ly = 4
 
+Nx =101
+Ny = 41
+#back calculated Nx and Ny to get dx and dy = 0.1
 dx = Lx/(Nx-1)
 dy = Ly/(Ny-1)
 
@@ -93,19 +94,19 @@ f = np.zeros(Nx*Ny)
 # set forcing
 i = np.floor(0.5*Nx)
 j = np.floor(0.5*Ny)
-f[i + j*Nx] = 1
+f[i + j*Nx] = 10
 
 # boundary conditions
 for j in range(Ny):
   i = 0
-  u[i+j*Nx] = 0.5
+  u[i+j*Nx] = 1
   i = Nx-1
-  u[i+j*Nx] = 3.5
+  u[i+j*Nx] = 0
 for i in range(Nx):
   j = 0
-  u[i+j*Nx] = -0.5
+  u[i+j*Nx] = 0
   j = Ny-1
-  u[i+j*Nx] = -2.5
+  u[i+j*Nx] = 0
 
 # Jacobi iteration
 u = pde.jacobi(u,f,dx,Nx,Ny,1000)
